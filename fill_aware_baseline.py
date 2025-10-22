@@ -173,7 +173,7 @@ def main():
     df["cancel"] = np.sign(micro_drift) != np.sign(df["signal"])
     df.loc[df["cancel"], "fill_prob"] *= 0.2
 
-    # Maker/taker fees
+    # Maker/taker fee
     df["trade_fee"] = np.where(df["join_maker"], -MAKER_REBATE, TAKER_FEE) * df["mid"]
 
     # Slippage penalty on partial fills

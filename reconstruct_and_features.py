@@ -1,4 +1,3 @@
-# stage3_reconstruct_and_features.py
 """
 Order-book reconstruction & microstructure features (OFI/QI/Microprice)
 
@@ -35,9 +34,7 @@ MICRO_K  = 5              # depth used for microprice weighting
 FREQ     = "100ms"        # output feature sampling frequency
 BASE     = "data"
 
-# --------------------------------------------------
-# PATH HELPERS
-# --------------------------------------------------
+# Helpers for path
 def _p(kind: str, date=DATE) -> str:
     """
     Resolve dataset paths consistently with your folder layout.
@@ -55,10 +52,7 @@ def _p(kind: str, date=DATE) -> str:
 FEATURES_PATH = os.path.join(BASE, EXCHANGE, "features")
 os.makedirs(FEATURES_PATH, exist_ok=True)
 
-
-# --------------------------------------------------
-# LOADERS
-# --------------------------------------------------
+# Loaders
 def load_snapshot_wide() -> Tuple[pd.DataFrame, pd.DataFrame, pd.Timestamp]:
     """
     Load the first book snapshot (wide format: asks[i].*, bids[i].*).
@@ -126,12 +120,9 @@ def iterate_l2_deltas():
             if ups:
                 yield row["ts"], ups
 
-
-# --------------------------------------------------
-# RECONSTRUCTION & FEATURES
-# --------------------------------------------------
+# Reconstruction & features
 def build_feature_table() -> pd.DataFrame:
-    # --- initialize from snapshot ---
+    # --- initialize from snapshot---
     asks0, bids0, t0 = load_snapshot_wide()
     book = BookLadder(TOP_N)
     book.apply_updates([
@@ -212,15 +203,12 @@ def build_feature_table() -> pd.DataFrame:
     feats = pd.DataFrame(feat_rows).set_index("ts")
     return feats
 
-
-# --------------------------------------------------
-# MAIN ENTRY
-# --------------------------------------------------
+# Main entry
 def main():
     feats = build_feature_table()
     out_path = os.path.join(FEATURES_PATH, f"{DATE}_{SYMBOL}_{FREQ}.parquet")
     feats.to_parquet(out_path)
-    print(f"✅ Features saved: {out_path}")
+    print(f"Features saved: {out_path}")
     print(feats.head(10))
 
 

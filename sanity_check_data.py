@@ -44,7 +44,7 @@ def sanity_checks(df, label):
         print(f"Time span: {df['timestamp'].min()} → {df['timestamp'].max()}")
         print(f"Avg delta: {diffs.mean():.6f} seconds")
     else:
-        print("⚠️ No 'timestamp' column detected!")
+        print("No 'timestamp' column detected!")
 
     # Safe describe block — handles both datetime and non-datetime data
     try:
