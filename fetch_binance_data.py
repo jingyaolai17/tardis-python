@@ -9,7 +9,7 @@ DATA_TYPE = "incremental_book_L2"
 SYMBOL = "BTCUSDT"
 FROM_DATE = "2024-10-21"         
 TO_DATE = "2024-10-22"         
-API_KEY = os.getenv("TARDIS_API_KEY", "API key")
+API_KEY = os.getenv("TARDIS_API_KEY", "API key(hidden)")
 
 SAVE_PATH = f"data/{EXCHANGE}/{DATA_TYPE}/"
 os.makedirs(SAVE_PATH, exist_ok=True)
